@@ -178,7 +178,7 @@ exports.uploadUserAvatar = async (req, res) => {
 exports.logInUsers = async (req, res) => {
   try {
     const { emailAddress, password, phoneNumber } = req.body.data;
-
+    const testingEmail = process.env.TESTING_EMAIL;
     const findUser = await userModel.findOne({
       where: {
         [Op.or]: [
@@ -227,7 +227,15 @@ exports.logInUsers = async (req, res) => {
       maxAge: 60 * 60 * 1000, // 1 min expiration
     });
 
-    Respond(res, 201, "Success", { message: "User logged in" });
+    if (testingEmail === emailAddress) {
+      Respond(res, 201, "Success", {
+        message: `Here's your six digits code ${authCode}`,
+      });
+    } else {
+      Respond(res, 201, "Success", {
+        message: `A six digits code has been sent to ${emailAddress}`,
+      });
+    }
   } catch (err) {
     res.status(401).json({
       status: "failed",
