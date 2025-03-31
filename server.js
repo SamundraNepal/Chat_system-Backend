@@ -1,7 +1,7 @@
 const app = require("./app");
 const dotenv = require("dotenv");
 const sequelize = require("./DataBase/dataBaseConnection");
-const userModel = require("./Model/userSchema");
+const setupAssociations = require("./associations");
 
 //this ref to the env path
 dotenv.config({ path: "./config.env" });
@@ -11,6 +11,8 @@ async function ConnectToTheDataBase() {
     await sequelize.authenticate();
     console.log("connection to SQL database is successfull");
 
+    // Set up Sequelize associations
+    setupAssociations();
     //this will create the sql table based on the defined model
     await sequelize.sync({ force: false }); // Sequelize looks at the models and creates tables
 

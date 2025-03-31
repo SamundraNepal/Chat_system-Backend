@@ -3,7 +3,7 @@ dotenv.config({ path: "./config.env" });
 
 const { Sequelize } = require("sequelize");
 
-//creat sequelize instance
+//create sequelize instance
 const sequelize = new Sequelize(
   process.env.SQL_DATABASE,
   "root",
